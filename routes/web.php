@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('students', StudentController::class);
+// Route::get('posts', function () {
+//     \App\Models\Post::create([
+//         'title'=> 'bangladesh',
+//         'student_id'=> 2,
+//     ]);
+// });
+Route::resource('posts', PostController::class);

@@ -29,7 +29,11 @@ class StudentRequest extends FormRequest
             "mother_name"=>"required||string||max:231",
             "number"=>"required||numeric||digits:11",
             "address"=>"required||string",
-            "student_id"=>"required||numeric"
+            "student_id"=>"required||numeric",
+            'mathMarks'=>'required||numeric',
+            'chemistryMarks'=>'required||numeric',
+            'physicsMarks'=>'required||numeric',
+            
         ];
     }
 }

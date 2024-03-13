@@ -17,4 +17,11 @@ class Student extends Model
     public function details(){
         return $this->hasOne(StudentDetail::class);
     }
+    public function courses(){
+        return $this->hasMany(Course::class,'student_id','id');
+    }
+    public function posts(){
+        return $this->hasMany(Post::class,'student_id','id');
+    }
+
 }

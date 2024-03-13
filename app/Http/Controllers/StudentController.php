@@ -14,7 +14,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        $students = Student::with('courses')->get();
         if ($students->count() > 0) {
             return response()->json([
                 "students" => $students,
@@ -43,6 +43,7 @@ class StudentController extends Controller
     {
         $validatedData = $request->validated();
         DB::beginTransaction();
+
         try {
             $student = Student::create([
                 "name" => $validatedData["name"],
@@ -57,6 +58,14 @@ class StudentController extends Controller
                 "student_id" => $student->id,
             ]);
 
+            $student->courses()->create([
+                "mathMarks"=> $validatedData["mathMarks"],
+                "chemistryMarks"=> $validatedData["chemistryMarks"],
+                "physicsMarks"=> $validatedData["physicsMarks"],
+                "student_id"=> $student->id,
+            ]);
+
+            // dd($student->with('courses')->get());
             DB::commit();
             return response()->json(['message' => 'Student record created successfully']);
         } catch (\Exception $e) {
@@ -70,14 +79,14 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        $student = Student::find($id);
+        $student = Student::with('courses')->find($id);
         if ($student) {
             return response()->json([
                 "student data" => $student,
                 "status" => "ok",
             ]);
         } else {
-            return response()->json(["message" => "student now found"]);
+            return response()->json(["message" => "student not found"]);
         }
     }
 
@@ -125,4 +134,6 @@ class StudentController extends Controller
         $student->restore();
         return redirect()->back()->with('success', 'Student restored successfully.');
     }
+
+    public function hasManyRelationship(Request $request){}
 }
